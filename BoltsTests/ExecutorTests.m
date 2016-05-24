@@ -8,9 +8,9 @@
  *
  */
 
-#import <XCTest/XCTest.h>
+@import XCTest;
 
-#import "Bolts.h"
+#import <Bolts/Bolts.h>
 
 @interface ExecutorTests : XCTestCase
 
@@ -38,7 +38,10 @@
 
     BFTask *task = [BFTask taskWithResult:nil];
     task = [task continueWithExecutor:queueExecutor withBlock:^id(BFTask *task) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         XCTAssertEqual(queue, dispatch_get_current_queue());
+#pragma clang diagnostic pop
         return nil;
     }];
     [task waitUntilFinished];
