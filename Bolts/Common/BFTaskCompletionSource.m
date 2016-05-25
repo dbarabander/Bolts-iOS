@@ -50,6 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setError:(NSError *)error {
+    //bolts bug, must return on non-error
+    if (!error) {
+        return;
+    }
+
     if (![self.task trySetError:error]) {
         [NSException raise:NSInternalInconsistencyException
                     format:@"Cannot set the error on a completed task."];
